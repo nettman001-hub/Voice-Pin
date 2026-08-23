@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.IO;
+using System.Windows;
 using Microsoft.Extensions.DependencyInjection;
 using VoicePin.App.Services;
 using VoicePin.Core.Listening;
@@ -20,6 +21,10 @@ public partial class App : Application
     {
         base.OnStartup(e);
 
+        DispatcherUnhandledException += OnDispatcherUnhandledException;
+        AppDomain.CurrentDomain.UnhandledException += OnDomainUnhandledException;
+        TaskScheduler.UnobservedTaskException += OnUnobservedTaskException;
+
         var services = new ServiceCollection();
         ConfigureServices(services);
         Services = services.BuildServiceProvider();
@@ -27,6 +32,32 @@ public partial class App : Application
         var window = new MainWindow();
         MainWindow = window;
         window.Show();
+    }
+
+    private void OnDispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
+    {
+        AppLogger.Write("UI", e.Exception);
+        MessageBox.Show(
+            "예기치 않은 오류가 발생했습니다.\n" + e.Exception.Message +
+            "\n\n로그: " + Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                "VoicePin", "logs", "app.log"),
+            "다들려", MessageBoxButton.OK, MessageBoxImage.Error);
+        e.Handled = true;
+    }
+
+    private void OnDomainUnhandledException(object sender, UnhandledExceptionEventArgs e)
+    {
+        if (e.ExceptionObject is Exception ex)
+        {
+            AppLogger.Write("AppDomain", ex);
+        }
+    }
+
+    private void OnUnobservedTaskException(object? sender, UnobservedTaskExceptionEventArgs e)
+    {
+        AppLogger.Write("Task", e.Exception);
+        e.SetObserved();
     }
 
     private static void ConfigureServices(IServiceCollection services)

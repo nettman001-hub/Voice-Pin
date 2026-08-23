@@ -73,7 +73,8 @@
                 </Grid>
             </Border>
 
-            <ContentControl Grid.Row="1" x:Name="PageHost"/>
+            <Frame Grid.Row="1" x:Name="PageHost" NavigationUIVisibility="Hidden"
+                   Focusable="False"/>
 
             <Border Grid.Row="2" x:Name="ToastBar" Background="#23283A" CornerRadius="0"
                     Padding="16,9" Visibility="Collapsed">
