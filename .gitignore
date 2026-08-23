@@ -1,0 +1,15 @@
+bin/
+obj/
+publish/
+*.user
+.vs/
+.idea/
+.vscode/
+
+*.db
+*.wav
+*.log
+
+appsettings.*.json
+settings.json
+secrets.json

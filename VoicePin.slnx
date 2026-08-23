@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/VoicePin.App/VoicePin.App.csproj" />
+    <Project Path="src/VoicePin.Core/VoicePin.Core.csproj" />
+    <Project Path="src/VoicePin.Infrastructure/VoicePin.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/VoicePin.Core.Tests/VoicePin.Core.Tests.csproj" />
+  </Folder>
+</Solution>

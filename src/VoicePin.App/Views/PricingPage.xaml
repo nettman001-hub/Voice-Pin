@@ -1,0 +1,55 @@
+<Page x:Class="VoicePin.App.Views.PricingPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel MaxWidth="900" Margin="0,24">
+
+            <TextBlock Text="요금제 안내" Style="{StaticResource H1}"/>
+            <TextBlock x:Name="CurrentBadge" Style="{StaticResource Muted}" Margin="2,6,0,4"/>
+            <TextBlock Style="{StaticResource Body}" Margin="2,0,0,16"
+                       Text="모든 요금제는 7일 무료 체험을 제공하며, 구독은 언제든지 취소할 수 있습니다."/>
+
+            <UniformGrid Columns="3">
+                <Border Style="{StaticResource Card}" Margin="0,0,8,8" Padding="20,18">
+                    <StackPanel>
+                        <TextBlock Text="베이직" FontSize="17" FontWeight="Bold"/>
+                        <TextBlock Text="월 9,900원" FontSize="22" FontWeight="Bold"
+                                   Foreground="{StaticResource Color.Primary}" Margin="0,8,0,12"/>
+                        <TextBlock Style="{StaticResource Body}" Text="• 음성 인식 30시간/월"/>
+                        <TextBlock Style="{StaticResource Body}" Text="• 판매 내역 저장 500건"/>
+                        <TextBlock Style="{StaticResource Body}" Text="• 화면 캡처 100장"/>
+                        <Button Content="이 플랜 선택" Tag="베이직" Style="{StaticResource BtnSecondary}"
+                                Margin="0,16,0,0" Click="SelectPlan_Click"/>
+                    </StackPanel>
+                </Border>
+
+                <Border Style="{StaticResource Card}" BorderBrush="{StaticResource Color.Primary}"
+                        BorderThickness="1.5" Margin="8,0,8,8" Padding="20,18">
+                    <StackPanel>
+                        <TextBlock Text="프로 (인기)" FontSize="17" FontWeight="Bold"/>
+                        <TextBlock Text="월 19,900원" FontSize="22" FontWeight="Bold"
+                                   Foreground="{StaticResource Color.Primary}" Margin="0,8,0,12"/>
+                        <TextBlock Style="{StaticResource Body}" Text="• 음성 인식 100시간/월"/>
+                        <TextBlock Style="{StaticResource Body}" Text="• 판매 내역 저장 무제한"/>
+                        <TextBlock Style="{StaticResource Body}" Text="• 화면 캡처 500장"/>
+                        <Button Content="이 플랜 선택" Tag="프로" Style="{StaticResource BtnPrimary}"
+                                Margin="0,16,0,0" Click="SelectPlan_Click"/>
+                    </StackPanel>
+                </Border>
+
+                <Border Style="{StaticResource Card}" Margin="8,0,0,8" Padding="20,18">
+                    <StackPanel>
+                        <TextBlock Text="프리미엄" FontSize="17" FontWeight="Bold"/>
+                        <TextBlock Text="월 29,900원" FontSize="22" FontWeight="Bold"
+                                   Foreground="{StaticResource Color.Primary}" Margin="0,8,0,12"/>
+                        <TextBlock Style="{StaticResource Body}" Text="• 음성 인식 무제한"/>
+                        <TextBlock Style="{StaticResource Body}" Text="• 저장·캡처 무제한"/>
+                        <TextBlock Style="{StaticResource Body}" Text="• 우선 고객 지원"/>
+                        <Button Content="이 플랜 선택" Tag="프리미엄" Style="{StaticResource BtnSecondary}"
+                                Margin="0,16,0,0" Click="SelectPlan_Click"/>
+                    </StackPanel>
+                </Border>
+            </UniformGrid>
+        </StackPanel>
+    </ScrollViewer>
+</Page>
