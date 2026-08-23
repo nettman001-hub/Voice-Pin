@@ -53,6 +53,6 @@ public interface ITrainingRepository
 {
     Task<List<TrainingPhrase>> GetAllAsync();
     Task<long> AddAsync(TrainingPhrase phrase);
-    Task IncrementRecordingAsync(long phraseId, DateTime trainedAt);
+    Task IncrementRecordingAsync(long phraseId, DateTime trainedAt, double? score = null);
     Task DeleteAsync(long id);
 }

@@ -73,6 +73,7 @@ public partial class App : Application
         services.AddSingleton<ISettingsStore, JsonSettingsStore>();
         services.AddSingleton<IScreenCaptureService, GdiScreenCaptureService>();
         services.AddSingleton<IAudioLoopbackSource, WasapiLoopbackSource>();
+        services.AddSingleton<IPronunciationScorer, DeepgramPronunciationScorer>();
 
         services.AddTransient<IMicrophoneRecorder, MicrophoneRecorder>();
 

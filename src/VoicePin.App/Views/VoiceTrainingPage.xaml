@@ -58,8 +58,13 @@
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
                                     <StackPanel>
-                                        <TextBlock Text="{Binding Text}" FontSize="13.5"
-                                                   FontWeight="SemiBold" TextWrapping="Wrap"/>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding Text}" FontSize="13.5"
+                                                       FontWeight="SemiBold" TextWrapping="Wrap"/>
+                                            <TextBlock Text="{Binding ScoreText}" FontSize="11.5"
+                                                       Foreground="{Binding ScoreBrush}" FontWeight="Bold"
+                                                       VerticalAlignment="Center" Margin="12,0,0,0"/>
+                                        </StackPanel>
                                         <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
                                             <TextBlock FontSize="11.5"
                                                        Foreground="{StaticResource Color.Muted}">
@@ -75,9 +80,14 @@
                                             </Border>
                                         </StackPanel>
                                     </StackPanel>
-                                    <Button Grid.Column="1" Content="훈련" Tag="{Binding Id}"
-                                            Style="{StaticResource BtnSecondary}" Padding="12,5"
-                                            VerticalAlignment="Center" Click="QuickTrain_Click"/>
+                                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                                        <Button Content="훈련" Tag="{Binding Id}"
+                                                Style="{StaticResource BtnSecondary}" Padding="12,5"
+                                                Click="QuickTrain_Click"/>
+                                        <Button Content="삭제" Tag="{Binding Id}"
+                                                Style="{StaticResource BtnDanger}" Padding="9,5" Margin="6,0,0,0"
+                                                Click="DeletePhrase_Click"/>
+                                    </StackPanel>
                                 </Grid>
                             </Border>
                         </DataTemplate>

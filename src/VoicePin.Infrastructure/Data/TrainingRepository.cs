@@ -24,7 +24,7 @@ public class TrainingRepository : ITrainingRepository
         await SeedIfEmpty();
         await using var conn = _db.Open();
         using var cmd = conn.CreateCommand();
-        cmd.CommandText = "SELECT id, text, recording_count, last_trained_at FROM training_phrases ORDER BY id ASC";
+        cmd.CommandText = "SELECT id, text, recording_count, last_trained_at, last_score FROM training_phrases ORDER BY id ASC";
         using var reader = await cmd.ExecuteReaderAsync();
         var list = new List<TrainingPhrase>();
         while (await reader.ReadAsync())
@@ -34,7 +34,8 @@ public class TrainingRepository : ITrainingRepository
                 Id = reader.GetInt64(0),
                 Text = reader.GetString(1),
                 RecordingCount = (int)reader.GetInt64(2),
-                LastTrainedAt = reader.IsDBNull(3) ? null : DateTime.Parse(reader.GetString(3))
+                LastTrainedAt = reader.IsDBNull(3) ? null : DateTime.Parse(reader.GetString(3)),
+                LastScore = reader.IsDBNull(4) ? null : reader.GetDouble(4)
             });
         }
         return list;
@@ -49,17 +50,26 @@ public class TrainingRepository : ITrainingRepository
         return (long)(await cmd.ExecuteScalarAsync())!;
     }
 
-    public async Task IncrementRecordingAsync(long phraseId, DateTime trainedAt)
+    public async Task IncrementRecordingAsync(long phraseId, DateTime trainedAt, double? score = null)
     {
         await using var conn = _db.Open();
         using var cmd = conn.CreateCommand();
         cmd.CommandText = """
             UPDATE training_phrases
             SET recording_count = recording_count + 1,
-                last_trained_at = CASE WHEN last_trained_at IS NULL OR last_trained_at < $at THEN $at ELSE last_trained_at END
+                last_trained_at = CASE WHEN last_trained_at IS NULL OR last_trained_at < $at THEN $at ELSE last_trained_at END,
+                last_score = COALESCE($score, last_score)
             WHERE id=$id
             """;
         cmd.Parameters.AddWithValue("$at", trainedAt.ToString("O"));
+        if (score is null)
+        {
+            cmd.Parameters.AddWithValue("$score", DBNull.Value);
+        }
+        else
+        {
+            cmd.Parameters.AddWithValue("$score", score.Value);
+        }
         cmd.Parameters.AddWithValue("$id", phraseId);
         await cmd.ExecuteNonQueryAsync();
     }

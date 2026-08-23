@@ -14,7 +14,7 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
 
-        _nav = new NavigationService();
+        _nav = App.Services.GetRequiredService<NavigationService>();
         _nav.Navigated += OnNavigated;
 
         _toastTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(4) };

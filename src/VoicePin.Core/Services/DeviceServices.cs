@@ -48,6 +48,13 @@ public interface IMicrophoneRecorder : IDisposable
     TimeSpan Stop();
 }
 
+public sealed record PronunciationScore(double Percent, string RecognizedText, string Method);
+
+public interface IPronunciationScorer
+{
+    Task<PronunciationScore> ScoreAsync(string wavPath, string targetText);
+}
+
 public interface INotificationService
 {
     void Notify(string title, string message);

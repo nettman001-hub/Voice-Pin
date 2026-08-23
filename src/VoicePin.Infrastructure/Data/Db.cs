@@ -66,7 +66,8 @@ public sealed class Db
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 text TEXT NOT NULL UNIQUE,
                 recording_count INTEGER NOT NULL DEFAULT 0,
-                last_trained_at TEXT
+                last_trained_at TEXT,
+                last_score REAL
             );
             CREATE TABLE IF NOT EXISTS notification_settings(
                 event_type TEXT PRIMARY KEY,
@@ -90,7 +91,24 @@ public sealed class Db
         }
 
         SeedRules(conn, tx);
+        Migrate(tx);
         tx.Commit();
+    }
+
+    private static void Migrate(SqliteTransaction tx)
+    {
+        var conn = tx.Connection!;
+        try
+        {
+            using var alter = conn.CreateCommand();
+            alter.Transaction = tx;
+            alter.CommandText = "ALTER TABLE training_phrases ADD COLUMN last_score REAL";
+            alter.ExecuteNonQuery();
+        }
+        catch
+        {
+            // 컬럼이 이미 있으면 무시
+        }
     }
 
     private static void SeedRules(SqliteConnection conn, SqliteTransaction tx)
